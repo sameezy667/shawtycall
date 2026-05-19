@@ -1,0 +1,20 @@
+{
+  "name": "videocall-backend",
+  "version": "1.0.0",
+  "description": "MediaCore V4.0 JWT Token Server",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "hono": "^4.2.4",
+    "zod": "^3.22.4",
+    "livekit-server-sdk": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
