@@ -161,9 +161,16 @@ class MainActivity : ComponentActivity() {
                             room = liveKitManager.room,
                             localVideoTrack = liveKitManager.localVideoTrack,
                             remoteVideoTrack = liveKitManager.remoteVideoTrack,
+                            remoteScreenShareTrack = liveKitManager.remoteScreenShareTrack,
                             isMuted = liveKitManager.isMuted,
                             isCameraEnabled = liveKitManager.isCameraEnabled,
                             isScreenShareEnabled = liveKitManager.isScreenShareEnabled,
+                            localVideoCodec = liveKitManager.localVideoCodec,
+                            localVideoResolution = liveKitManager.localVideoResolution,
+                            localVideoBitrate = liveKitManager.localVideoBitrate,
+                            remoteVideoCodec = liveKitManager.remoteVideoCodec,
+                            remoteVideoResolution = liveKitManager.remoteVideoResolution,
+                            remoteVideoBitrate = liveKitManager.remoteVideoBitrate,
                             onMuteToggle = { liveKitManager.toggleMute() },
                             onCameraToggle = { liveKitManager.toggleCamera() },
                             onScreenShareToggle = {
@@ -205,9 +212,9 @@ class MainActivity : ComponentActivity() {
             }.toString()
 
             val body = json.toRequestBody(mediaType)
-            // Use localhost to route via adb reverse tcp:3000 tcp:3000 for physical & emulator devices
+            // Production backend URL on Render
             val request = Request.Builder()
-                .url("http://localhost:3000/api/token")
+                .url("https://shawtycall.onrender.com/api/token")
                 .post(body)
                 .build()
 

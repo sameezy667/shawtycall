@@ -57,6 +57,13 @@ fun CallScreen(
     onScreenShareToggle: () -> Unit,
     onEndCall: () -> Unit,
     roomName: String,
+    localVideoCodec: String = "Unknown",
+    localVideoResolution: String = "0x0",
+    localVideoBitrate: String = "0 kbps",
+    remoteVideoCodec: String = "Unknown",
+    remoteVideoResolution: String = "0x0",
+    remoteVideoBitrate: String = "0 kbps",
+    remoteScreenShareTrack: RemoteVideoTrack? = null,
     modifier: Modifier = Modifier
 ) {
     // DRAGGABLE PIP self-view position state
@@ -76,10 +83,13 @@ fun CallScreen(
         
         // 1. MAIN REMOTE VIDEO STREAM (Fills Viewport)
         Box(modifier = Modifier.fillMaxSize()) {
-            if (remoteVideoTrack != null && room != null) {
+            // Prioritize screen share if available, otherwise show camera
+            val displayTrack = remoteScreenShareTrack ?: remoteVideoTrack
+            
+            if (displayTrack != null && room != null) {
                 VideoRenderer(
                     room = room,
-                    track = remoteVideoTrack,
+                    track = displayTrack,
                     modifier = Modifier.fillMaxSize()
                 )
             } else {
@@ -161,7 +171,7 @@ fun CallScreen(
             }
 
             // Remote Participant Info (Top-Left overlay)
-            if (remoteVideoTrack != null) {
+            if (remoteVideoTrack != null || remoteScreenShareTrack != null) {
                 Column(
                     modifier = Modifier
                         .padding(horizontal = 20.dp, vertical = 8.dp)
@@ -180,7 +190,7 @@ fun CallScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "REMOTE PARTICIPANT",
+                            text = if (remoteScreenShareTrack != null) "REMOTE SCREEN SHARE" else "REMOTE PARTICIPANT",
                             style = TextStyle(
                                 color = Color.White,
                                 fontSize = 11.sp,
@@ -197,7 +207,7 @@ fun CallScreen(
                             .padding(horizontal = 10.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = "LATENCY: 24MS  |  RESOLUTION: 1280x720",
+                            text = "CODEC: $remoteVideoCodec  |  RES: $remoteVideoResolution  |  BITRATE: $remoteVideoBitrate",
                             style = TextStyle(
                                 color = Color(0xFFCCCCCC),
                                 fontSize = 9.sp,
@@ -372,7 +382,7 @@ fun CallScreen(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = "AES-256",
+                    text = "CODEC: $localVideoCodec",
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 7.sp,
@@ -381,7 +391,15 @@ fun CallScreen(
                     )
                 )
                 Text(
-                    text = "60.0 FPS",
+                    text = "RES: $localVideoResolution",
+                    style = TextStyle(
+                        color = Color.White,
+                        fontSize = 7.sp,
+                        fontFamily = FontFamily.Monospace
+                    )
+                )
+                Text(
+                    text = "BITRATE: $localVideoBitrate",
                     style = TextStyle(
                         color = Color.White,
                         fontSize = 7.sp,
