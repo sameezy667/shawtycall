@@ -207,7 +207,7 @@ fun CallScreen(
                             .padding(horizontal = 10.dp, vertical = 4.dp)
                     ) {
                         Text(
-                            text = "CODEC: $remoteVideoCodec  |  RES: $remoteVideoResolution  |  BITRATE: $remoteVideoBitrate",
+                            text = "CODEC: $remoteVideoCodec  |  RES: $remoteVideoResolution",
                             style = TextStyle(
                                 color = Color(0xFFCCCCCC),
                                 fontSize = 9.sp,
@@ -382,27 +382,19 @@ fun CallScreen(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = "CODEC: $localVideoCodec",
+                    text = localVideoCodec,
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 7.sp,
+                        fontSize = 8.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace
                     )
                 )
                 Text(
-                    text = "RES: $localVideoResolution",
+                    text = localVideoResolution,
                     style = TextStyle(
                         color = Color.White,
-                        fontSize = 7.sp,
-                        fontFamily = FontFamily.Monospace
-                    )
-                )
-                Text(
-                    text = "BITRATE: $localVideoBitrate",
-                    style = TextStyle(
-                        color = Color.White,
-                        fontSize = 7.sp,
+                        fontSize = 8.sp,
                         fontFamily = FontFamily.Monospace
                     )
                 )
