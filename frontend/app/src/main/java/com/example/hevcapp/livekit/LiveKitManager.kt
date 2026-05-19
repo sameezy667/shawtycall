@@ -127,6 +127,13 @@ class LiveKitManager(private val context: Context) {
                                     }
                                 }
                             }
+                            is RoomEvent.ParticipantConnected -> {
+                                // New participant joined - get their tracks
+                                val participant = event.participant
+                                if (participant is RemoteParticipant) {
+                                    getParticipantTracks(participant)
+                                }
+                            }
                             is RoomEvent.ParticipantDisconnected -> {
                                 val participant = event.participant
                                 if (activeRemoteParticipant == participant) {
@@ -236,5 +243,14 @@ class LiveKitManager(private val context: Context) {
         room = null
         connectionState = Room.State.DISCONNECTED
         isScreenShareEnabled = false
+    }
+
+    /**
+     * Get video tracks from a remote participant - simplified.
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun getParticipantTracks(participant: RemoteParticipant) {
+        // Rely on TrackSubscribed event - this is a fallback
+        // The LiveKit SDK should automatically trigger TrackSubscribed when participants join
     }
 }
